@@ -32,5 +32,24 @@ public class TwainIOMetadata extends ScannerIOMetadata{
   public TwainTransfer.MemoryTransfer.Info getMemory(){return memory;}
 
   // only valid when state changes!
+  @Override
   public boolean     isFinished(){return (getState()==3)&&(getLastState()==4);}
+
+  /**
+   * AJOUT
+   */
+
+
+  /**
+   * Retourne les capacités de la source
+   * @return
+   * @throws TwainIOException
+   */
+  public TwainCapability[] getCapabilites() throws TwainIOException {
+    return this.source.getCapabilities();
+  }
+
+  /**
+   * AJOUT
+   */
 }

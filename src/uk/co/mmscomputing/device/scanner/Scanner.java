@@ -1,11 +1,16 @@
 package uk.co.mmscomputing.device.scanner;
 
-import java.util.Vector;
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.Vector;
+
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
-import java.lang.reflect.*;
+import uk.co.mmscomputing.device.twain.TwainCapability;
+import uk.co.mmscomputing.device.twain.TwainIOException;
+import uk.co.mmscomputing.device.twain.TwainIOMetadata;
 
 //import uk.co.mmscomputing.device.twain.*;
 //import uk.co.mmscomputing.device.sane.*;
@@ -27,10 +32,29 @@ abstract public class Scanner{
   public abstract void       acquire()throws ScannerIOException;
   public abstract void       setCancel(boolean c)throws ScannerIOException;
 
+  /**
+   * AJOUT
+   */
+
+  /**
+   * Récupère les capacités de la source. Cette méthode suppose que c'est l'implémentation TWAIN qui est à l'oeuvre.
+   * @return la liste des capacités de la source
+   * @throws TwainIOException
+   */
+  public List<TwainCapability> getCapabilities() throws TwainIOException {
+    TwainCapability[] capabilities = ((TwainIOMetadata) metadata).getCapabilites();
+
+    return Arrays.asList(capabilities);
+  }
+
+  /**
+   * AJOUT
+   */
+
   public boolean isBusy(){ return isbusy;}
 
   public void waitToExit(){                                       // convenience method, call before System.exit
-    try{                                                          
+    try{
       while(isBusy()){                                            // make sure program waits for scanner to finish!
         Thread.currentThread().sleep(200);
       }
